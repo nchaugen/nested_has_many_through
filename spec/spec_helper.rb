@@ -10,11 +10,10 @@ require 'spec'
 require 'rubygems'
 require 'active_record'
 
-
 Spec::Runner.configure do |config|
   
   config.before(:suite) do
-    # ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/log/test.log")
+    ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/log/test.log")
     ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
     load(File.dirname(__FILE__) + "/db/schema.rb")
     
@@ -22,13 +21,13 @@ Spec::Runner.configure do |config|
     require File.expand_path(File.dirname(__FILE__) + '/../init')
   end
 
-  # config.before(:each) do
-  #   # We need to truncate the database before each spec
-  #   ActiveRecord::Base.connection.tables.each do |table|
-  #    ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
-  #    ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence where name='#{table}'")
-  #   end
-  # end
+  config.before(:each) do
+    # We need to truncate the database before each spec
+    ActiveRecord::Base.connection.tables.each do |table|
+     ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
+     ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence where name='#{table}'")
+    end
+  end
   
   # You can declare fixtures for each behaviour like this:
   #   describe "...." do
