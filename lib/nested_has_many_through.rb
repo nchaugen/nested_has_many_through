@@ -17,9 +17,14 @@ module NestedHasManyThrough
       base.class_eval do
         def construct_conditions
           @nested_join_attributes ||= construct_nested_join_attributes
-          "#{@nested_join_attributes[:remote_key]} = #{@owner.quoted_id} #{@nested_join_attributes[:conditions]}"
-        end
+          
+          local_table_name = @reflection.active_record.table_name
 
+          unless @owner.class.name.tableize == local_table_name
+            "#{@nested_join_attributes[:remote_key]} = #{@owner.quoted_id} #{@nested_join_attributes[:conditions]}"
+          end
+        end
+        
         def construct_joins(custom_joins = nil)
           @nested_join_attributes ||= construct_nested_join_attributes
           "#{@nested_join_attributes[:joins]} #{custom_joins}"

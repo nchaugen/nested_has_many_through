@@ -1,4 +1,26 @@
 
+Assistant belongs_to > has_many => through
+- should return the correct author
+- should belong to the correct author
+- should return correct number of posts
+- should return the same posts as its author
+- should return the posts in the same order 
+
+Assistant belongs_to > has_many => :through > has_many => :through #categories
+- should return the correct number of categories
+- should return the correct categories
+
+Assistant belongs_to > has_many => :through > has_many => :through #categories > has_many => :through #similar_posts
+- should return the correct number of posts
+
+Assistant belongs_to > has_many => :through > has_many => :through #categories > has_many => :through #similar_posts > has_many => :through #similar_authors
+- should return the correct number of authors
+- should return the correct authors
+
+Assistant belongs_to > has_many => :through > has_many => :through #categories > has_many => :through #similar_posts > has_many => :through #similar_authors > has_many => :through #posts_of_similar_authors
+- should return the correct number of posts
+- should return the correct posts
+
 Author (newly created)
 - #posts should == []
 - #categories should == []
@@ -40,10 +62,10 @@ Commenter use case (a1: p1>c1, a2: p2>c1, p3>c2, a3: p4>c3) u1 comments on p2
 Commenter use case (a1: p1>c1, a2: p2>c1, p3>c2, a3: p4>c3) u1 comments on p2 when p2 is inflamatory
 - p2 should be inflamatory
 - u1.commented_posts.find_inflamatory(:all) should == [p2]
-- u1.posts_of_interest.find_inflamatory(:all) should == [p2]
+- u1.posts_of_interest.find_inflamatory(:all).uniq should == [p2]
 - u1.commented_posts.inflamatory should == [p2]
 - u1.posts_of_interest.inflamatory should == [p2]
 
-Finished in 0.538693 seconds
+Finished in 1.255169 seconds
 
-31 examples, 0 failures
+43 examples, 0 failures

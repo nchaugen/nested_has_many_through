@@ -1,3 +1,5 @@
+* Fixed the normal case for belongs_to => has_many => :through plus a lot of specs for the implied cases [Maran Hidskes and Jeroen van Dijk]
+
 * spec'd and fixed some problems with using named_scope in edge
 
 * Initial commit
