@@ -31,6 +31,8 @@ class Author < User
   has_many :similar_authors, :through => :similar_posts, :source => :author, :uniq => true
   has_many :posts_of_similar_authors, :through => :similar_authors, :source => :posts, :uniq => true
   has_many :commenters, :through => :posts, :uniq => true
+  
+  has_many :assistants
 end
 
 class Post < ActiveRecord::Base
