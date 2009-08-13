@@ -1,31 +1,5 @@
 # Testing app setup
 
-##################
-# Database schema
-##################
-
-ActiveRecord::Migration.suppress_messages do
-  ActiveRecord::Schema.define(:version => 0) do
-    create_table :users, :force => true do |t|
-      t.column "type", :string
-    end
-    
-    create_table :posts, :force => true do |t|
-      t.column "author_id", :integer
-      t.column "category_id", :integer
-      t.column "inflamatory", :boolean
-    end
-
-    create_table :categories, :force => true do |t|
-    end
-
-    create_table :comments, :force => true do |t|
-      t.column "user_id", :integer
-      t.column "post_id", :integer
-    end
-  end
-end
-
 #########
 # Models
 #
@@ -39,6 +13,9 @@ end
 #                                            similar_posts is be a subset of this collection)
 #   - authors have commenters: users who have commented on their posts
 #
+# Following model is added to verify the has_many/belongs_to :through relationship still works (as it is currently broken)
+#   - authors have many assistants: they can access the posts of their author
+
 class User < ActiveRecord::Base
   has_many :comments
   has_many :commented_posts, :through => :comments, :source => :post, :uniq => true
@@ -81,4 +58,9 @@ end
 class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :post
+end
+
+class Assistant < ActiveRecord::Base
+  belongs_to :author
+  has_many :posts, :through => :author
 end
